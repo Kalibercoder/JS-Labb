@@ -1,0 +1,145 @@
+/* 
+Style directions
+    1. General styling
+    2. Div styling
+    3. Button styling
+    4. Img style
+    5. Modal
+*/
+
+/* Background */
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Bebas+Neue' sans-serif;
+}
+body {
+  height: 100%;
+  background-color: rgb(58, 56, 56);
+}
+/* 1. General styling */
+
+/* Grid */
+.wrapper {
+  display: grid;
+  padding: 10px;
+  grid-template-columns: 1fr 2fr 2fr;
+  grid-template-rows: 2fr 2fr 2fr 1fr;
+  grid-template-areas:
+    'home active-window active-window'
+    'library active-window active-window'
+    'library active-window active-window'
+    'music-player music-player music-player';
+  grid-gap: 20px;
+}
+#home {
+  grid-area: home;
+}
+#library {
+  grid-area: library;
+  height: 55vh;
+}
+#active-window {
+  grid-area: active-window;
+}
+#music-player {
+  grid-area: music-player;
+}
+
+#listening {
+  background-color: black;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* end of grid */
+
+/* end of general styling */
+
+/* Font styling */
+h2 {
+  color: rgb(28, 133, 28);
+  margin: 1vh 1vh 1vh 1vh;
+  /* text-shadow: 4px 4px 4px #000; */
+  text-transform: uppercase;
+  font: bold;
+  font-size: 2vh;
+}
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rokkitt:ital,wght@0,300;0,400;1,900&display=swap');
+/* end of font styling */
+
+/* 2. Div styling */
+.box {
+  background-color: rgb(29, 29, 29);
+  text-align: center;
+  border-radius: 15px;
+  height: 100%;
+}
+/* end of div styling */
+
+/* 3. Button styling */
+.home-button,
+.search-button {
+  background-color: rgb(29, 29, 29);
+  border: none;
+  margin-top: 10%;
+}
+.home-button:hover,
+.search-button:hover {
+  background-color: rgb(18, 100, 36);
+  border: none;
+  border-radius: 15px;
+  transition: background 1s ease;
+}
+
+.create-playlist-button {
+  background-color: black;
+  border: none;
+  border-radius: 10px;
+  width: 100%;
+  margin-top: 3%;
+}
+.create-playlist-button:hover {
+  background-color: rgb(73, 72, 72);
+  border: none;
+  transition: background 1s ease;
+}
+audio {
+  margin-top: 5vh;
+  width: 80vh;
+  background-color: rgb(29, 29, 29);
+}
+/* End of button styling */
+
+/* 4. Img style */
+.img-buttons {
+  width: 10vh;
+  height: 10vh;
+  border-radius: 10px;
+}
+.img-album {
+  width: 50vh;
+  height: 50vh;
+  border-radius: 20px;
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+/* end of Img style */
+
+/* 5. Modal style */
+input {
+  background-color: rgb(29, 29, 29);
+  font-size: large;
+  text-align: center;
+  color: white;
+}
+/* end of modal style */
+/* Input style */
+input {
+  background-color: rgb(29, 29, 29);
+  font-size: large;
+  text-align: center;
+  color: white;
+}
+/* end of Input style */
