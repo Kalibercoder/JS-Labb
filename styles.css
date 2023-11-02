@@ -53,6 +53,14 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+.Authorize-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40%;
+}
+
 /* end of grid */
 
 /* end of general styling */
@@ -60,6 +68,14 @@ body {
 /* Font styling */
 h2 {
   color: rgb(28, 133, 28);
+  margin: 1vh 1vh 1vh 1vh;
+  /* text-shadow: 4px 4px 4px #000; */
+  text-transform: uppercase;
+  font: bold;
+  font-size: 2vh;
+}
+.h2-auto {
+  color: rgb(0, 0, 0);
   margin: 1vh 1vh 1vh 1vh;
   /* text-shadow: 4px 4px 4px #000; */
   text-transform: uppercase;
@@ -90,6 +106,20 @@ h2 {
   background-color: rgb(18, 100, 36);
   border: none;
   border-radius: 15px;
+  transition: background 1s ease;
+}
+.authorize-button {
+  background-color: green;
+  border: none;
+  height: 10vh;
+  width: 30vh;
+  box-shadow: 10px 10px black;
+  border-radius: 20px;
+}
+.authorize-button:hover {
+  background-color: yellowgreen;
+  border: none;
+  border-radius: 20px;
   transition: background 1s ease;
 }
 
