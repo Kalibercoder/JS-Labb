@@ -129,8 +129,8 @@ async function fetchTrackInfo() {
 
       const previewUrl = data.preview_url;
       // Update the album image
-      document.getElementById('albumImage-behind').src =
-        albumImage;
+      /*  document.getElementById('albumImage-behind').src =
+        albumImage; */
       document.getElementById('albumImage').src =
         albumImage;
       document.getElementById(
