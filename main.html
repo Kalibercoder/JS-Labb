@@ -8,6 +8,12 @@
       content="width=device-width, initial-scale=1.0"
     />
     <link rel="stylesheet" href="styles.css" />
+
+    <!--   <script
+      src="https://sdk.scdn.co/spotify-player.js"
+      onload="initializeSpotifySDK()"
+    ></script> -->
+
     <title>Fakify</title>
   </head>
   <!-- end of Head -->
@@ -17,73 +23,48 @@
       <div id="home" class="box">
         <button class="home-button">
           <img
+            id="authorize"
             class="img-buttons"
             src="imgs/fakify-logos_transparent.png"
             alt=""
             onclick="window.location.href='index.html'"
           />
         </button>
-
-        <button class="search-button" id="authorize-button">
-          <img
-            class="img-buttons"
-            src="imgs/search-logos_transparent.png"
-            alt=""
-          />
-        </button>
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Enter a song name"
-        />
       </div>
       <!-- end of Home / search -->
 
       <!-- Library / playlist -->
       <div id="library" class="box">
+        <input
+          type="text"
+          id="search-bar"
+          placeholder="Search for a song"
+        />
         <button
-          class="create-playlist-button"
-          onclick="window.location.href='data.html'"
+          class="search-button"
+          id="search-play-button"
         >
-          <h2>Library</h2>
+          <h2 class="h2-auto">Search and play</h2>
         </button>
-        <button
-          class="create-playlist-button"
-          id="expandButton"
-          onclick="d.showModal()"
-        >
-          <h2>Create a playlist +</h2>
-        </button>
-        <dialog id="d">
-          <input type="text" />
-          <button class="button-modal" onclick="d.close()">
-            <h2>Exit</h2>
-          </button>
-        </dialog>
       </div>
       <!-- end of Library / playlist -->
 
       <!-- Active window -->
       <div id="active-window" class="box">
-        <div id="listening">
-          <h2>You are listening to</h2>
-        </div>
+        <img
+          src=""
+          alt="album"
+          class="img-album-behind"
+          id="albumImage-behind"
+        />
         <img
           class="img-album"
           id="albumImage"
           src=""
-          alt="Album cover"
+          alt="album"
         />
-        <button class="authorize-button" id="authorize">
-          <h2 class="h2-auto">Authorize</h2>
-        </button>
-        <button id="play">Play Music</button>
-        <button id="pause">Pause Music</button>
 
-        <div id="trackInfo">
-          <h2 id="trackName"></h2>
-          <h2 id="artistName"></h2>
-        </div>
+        <div id="trackInfo"></div>
       </div>
 
       <!-- end of Active window -->
@@ -91,6 +72,7 @@
       <!-- Music player -->
       <div id="music-player" class="box">
         <audio controls id="audioPreview">
+          <!-- If browser is without support shows -->
           Your browser does not support the audio element.
         </audio>
       </div>
@@ -98,6 +80,7 @@
     </div>
 
     <!-- Script -->
+
     <script src="script.js"></script>
   </body>
 </html>

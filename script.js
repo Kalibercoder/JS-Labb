@@ -1,123 +1,165 @@
-// Spotify constants
-const CLIENT_SECRET = 'dd0c3fdf7e4246479dca71531906d96a';
-const CLIENT_ID = '124fc499e60746ea831284136dbc7f4f';
-const REDIRECT_URI = 'http://127.0.0.1:5500/main.html';
-// Scopes
-const SCOPE =
-  'user-read-playback-state user-modify-playback-state user-read-currently-playing playlist-modify-public user-library-read user-library-modify user-read-playback-position ugc-image-upload';
-const TOKEN_ENDPOINT =
+// Spotify variables
+const clientId = '124fc499e60746ea831284136dbc7f4f';
+const clientSecret = '693a9bc95e654947af04369038e6d0f9';
+const redirectUri = 'http://127.0.0.1:5500/main.html';
+const tokenEndpoint =
   'https://accounts.spotify.com/api/token';
-const authorizationCode = new URLSearchParams(
-  window.location.search
-).get('code');
 
-// Function to store the access token in localStorage
-function storeAccessToken(accessToken) {
-  localStorage.setItem('spotifyAccessToken', accessToken);
-}
+// Scopes
+const scopes = [
+  'ugc-image-upload',
+  'user-read-playback-state',
+  'user-modify-playback-state',
+  'user-read-currently-playing',
+  'streaming',
+  'app-remote-control',
+  'user-read-email',
+  'user-read-private',
+  'playlist-read-collaborative',
+  'playlist-modify-public',
+  'playlist-read-private',
+  'playlist-modify-private',
+  'user-library-modify',
+  'user-library-read',
+  'user-top-read',
+  'user-read-playback-position',
+  'user-read-recently-played',
+  'user-follow-read',
+  'user-follow-modify',
+];
 
-// Function to get the access token from localStorage
-function getStoredAccessToken() {
-  return localStorage.getItem('spotifyAccessToken');
-}
+// AuthorizationUrl
 
-// Check for an existing access token when the page loads
-const storedAccessToken = getStoredAccessToken();
+const authorizationUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+  redirectUri
+)}&scope=${encodeURIComponent(
+  // joins the array into a string
+  scopes.join(' ')
+)}&response_type=code`;
 
-// Authorize button event listener, sending to Spotify auth page
-document
-  .querySelector('#authorize')
-  .addEventListener('click', () => {
-    const authorizeUrl =
-      `https://accounts.spotify.com/authorize` +
-      `?client_id=${CLIENT_ID}` +
-      `&response_type=code` +
-      `&redirect_uri=${encodeURIComponent(REDIRECT_URI)}` +
-      `&scope=${SCOPE}`;
+// Initialize access token variable
+let accessToken;
 
-    window.location.href = authorizeUrl;
-  });
-
-// Fetch function that authorizes the user
-async function getAccessToken() {
-  // Check if there's a stored access token
-  const storedAccessToken = getStoredAccessToken();
-
-  if (storedAccessToken) {
-    return storedAccessToken;
-  }
-
-  // If no stored token, fetch a new one
-  const response = await fetch(TOKEN_ENDPOINT, {
+// Function to exchange the authorization code for an access token
+async function getAccessToken(authorizationCode) {
+  const response = await fetch(tokenEndpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
       Authorization:
-        'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET),
+        'Basic ' + btoa(clientId + ':' + clientSecret),
     },
     body: new URLSearchParams({
       grant_type: 'authorization_code',
       code: authorizationCode,
-      redirect_uri: REDIRECT_URI,
+      redirect_uri: redirectUri,
     }),
   });
 
-  const data = await response.json();
-  const accessToken = data.access_token;
-
-  // Store the access token in localStorage
-  storeAccessToken(accessToken);
-
-  return accessToken;
-}
-
-// Function to play or pause a song
-async function playMusic(accessToken, isPlaying = true) {
-  let playEndpoint =
-    'https://api.spotify.com/v1/me/player/play';
-
-  const bodyData = {
-    // song url
-    uris: ['spotify:track:3Z7dieIRSquTYqLVR15mov'],
-    // start position
-    position_ms: 0,
-  };
-
-  if (!isPlaying) {
-    // pause function
-    playEndpoint =
-      'https://api.spotify.com/v1/me/player/pause';
-  }
-  // response from access token waits for fetch
-  const response = await fetch(playEndpoint, {
-    method: 'PUT',
-    headers: {
-      Authorization: 'Bearer ' + accessToken,
-    },
-    body: JSON.stringify(bodyData),
-  });
-  // checking for response 204 from the API
-  if (response.status === 204) {
-    if (isPlaying) {
-      console.log('Music is now playing.');
-    } else {
-      console.log('Music is paused.');
-    }
+  if (response.ok) {
+    const data = await response.json();
+    accessToken = data.access_token; // Store the access token in the global variable
   } else {
-    console.error('Failed to control playback.');
+    console.error(
+      'Error exchanging authorization code for access token:',
+      response.status
+    );
+    accessToken = null; // Handle the error as needed
   }
 }
 
-// Add event listeners for playback controls
+// Event listener for index page authorization button
 document
-  .getElementById('play')
-  .addEventListener('click', async () => {
-    const accessToken = await getAccessToken();
-    await playMusic(accessToken);
+  .querySelector('#authorize')
+  .addEventListener('click', () => {
+    window.location.href = authorizationUrl;
   });
 
-// Check for an existing access token and hide the "Authorize" button if it exists
-if (storedAccessToken) {
-  document.querySelector('#authorize').style.display =
-    'none';
+// Check for and store the authorization code in local storage
+const urlParams = new URLSearchParams(
+  window.location.search
+);
+const authorizationCode = urlParams.get('code');
+
+if (authorizationCode) {
+  // Store the authorization code in local storage
+  localStorage.setItem(
+    'spotifyAuthorizationCode',
+    authorizationCode
+  );
+
+  // Exchange the authorization code for an access token
+  getAccessToken(authorizationCode);
 }
+
+// Retrieve the stored authorization code (if it exists) and use the access token
+const storedAuthorizationCode = localStorage.getItem(
+  'spotifyAuthorizationCode'
+);
+
+async function fetchTrackInfo() {
+  if (!accessToken) {
+    console.error('Access token is not available.');
+    return;
+  }
+
+  // Track id (this should be dynamic based on user input or selection)
+  const trackId =
+    '6Xe9wT5xeZETPwtaP2ynUz?si=70dd0d6f541c4df2';
+  const apiUrl = `https://api.spotify.com/v1/tracks/${trackId}`;
+
+  try {
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+
+      // Extract the required information
+      const albumImage = data.album.images[0].url;
+      const songName = data.name;
+      const artistName = data.artists
+        .map((artist) => artist.name)
+        .join(', ');
+      // This is the URL for the 30-second song preview
+
+      const previewUrl = data.preview_url;
+      // Update the album image
+      document.getElementById('albumImage-behind').src =
+        albumImage;
+      document.getElementById('albumImage').src =
+        albumImage;
+      document.getElementById(
+        'albumImage'
+      ).alt = `Album cover for ${songName}`;
+
+      // Update the track information
+      document.getElementById('trackInfo').innerHTML = `
+        <h2> <strong>${songName}</strong></h2>
+        <h2> <strong>${artistName}</strong></h2>
+      `;
+
+      // Update the audio element's source for the preview (if available)
+      if (previewUrl) {
+        const audioElement =
+          document.getElementById('audioPreview');
+        audioElement.src = previewUrl;
+        audioElement.load(); // This is necessary to reload the audio element and make the new source effective
+      } else {
+        console.log('No preview available for this track.');
+      }
+    } else {
+      throw new Error('Failed to fetch track information');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+document
+  .getElementById('search-play-button')
+  .addEventListener('click', fetchTrackInfo);
