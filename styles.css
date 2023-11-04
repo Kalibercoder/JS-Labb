@@ -34,6 +34,9 @@ body {
 }
 #home {
   grid-area: home;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 #library {
   grid-area: library;
@@ -41,6 +44,11 @@ body {
 }
 #active-window {
   grid-area: active-window;
+  background-image: url('');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
 }
 #music-player {
   grid-area: music-player;
@@ -67,7 +75,7 @@ body {
 
 /* Font styling */
 h2 {
-  color: rgb(28, 133, 28);
+  color: rgb(112, 24, 24);
   margin: 1vh 1vh 1vh 1vh;
   /* text-shadow: 4px 4px 4px #000; */
   text-transform: uppercase;
@@ -97,9 +105,9 @@ h2 {
 /* 3. Button styling */
 .home-button,
 .search-button {
-  background-color: rgb(29, 29, 29);
+  background-color: rgb(70, 27, 27);
+  border-radius: 15px;
   border: none;
-  margin-top: 10%;
 }
 .home-button:hover,
 .search-button:hover {
@@ -136,10 +144,9 @@ audio {
 
 /* 4. Img style */
 .img-buttons {
-  margin-top: 50%;
   width: 10vh;
   height: 10vh;
-  border-radius: 10px;
+  border-radius: 15px;
 }
 .img-album {
   width: 50vh;
@@ -152,24 +159,17 @@ audio {
 
 /* end of Img style */
 
-/* 5. Modal style */
+/* 5. Input style */
 input {
-  background-color: rgb(29, 29, 29);
-  font-size: large;
-  text-align: center;
-  color: white;
-}
-/* end of modal style */
-/* Input style */
-input {
-  background-color: rgb(29, 29, 29);
-  font-size: large;
-  text-align: center;
-  color: white;
-  margin-top: 10vh;
-  height: 5vh;
-  border: black;
-  text-decoration: underline;
-  font-size: 150%;
+  padding: 10px 20px 10px 40px;
+  border: 5px solid rgb(112, 24, 24);
+  border-radius: 15px;
+  outline: none;
+  font-size: 16px;
+  transition: border-color 0.3s;
+
+  background-color: black;
+  color: rgb(112, 24, 24);
+  text-transform: uppercase;
 }
 /* end of Input style */

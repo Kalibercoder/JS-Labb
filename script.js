@@ -37,7 +37,7 @@ const authorizationUrl = `https://accounts.spotify.com/authorize?client_id=${cli
   scopes.join(' ')
 )}&response_type=code`;
 
-// Initialize access token variable
+// Access token variable
 let accessToken;
 
 // Function to exchange the authorization code for an access token
@@ -92,22 +92,68 @@ if (authorizationCode) {
   getAccessToken(authorizationCode);
 }
 
-// Retrieve the stored authorization code (if it exists) and use the access token
-const storedAuthorizationCode = localStorage.getItem(
-  'spotifyAuthorizationCode'
-);
+document
+  .querySelector('#search-play-button')
+  .addEventListener('click', async () => {
+    const query =
+      document.getElementById('search-bar').value;
+    if (!query) {
+      console.log('Please enter a search term.');
+      return;
+    }
 
-async function fetchTrackInfo() {
+    const searchUrl = `https://api.spotify.com/v1/search?q=${encodeURIComponent(
+      query
+    )}&type=track&limit=1`;
+
+    try {
+      const response = await fetch(searchUrl, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (response.ok) {
+        const searchData = await response.json();
+        const tracks = searchData.tracks.items;
+        if (tracks.length > 0) {
+          // First track (could be changed to show multiple songs in a)
+          const firstTrack = tracks[0];
+          console.log(
+            'First track found:',
+            firstTrack.name,
+            'by',
+            firstTrack.artists
+              .map((artist) => artist.name)
+              .join(', ')
+          );
+
+          // Now you can call your fetchTrackInfo function using the ID of the first track
+          fetchTrackInfo(firstTrack.id);
+        } else {
+          console.log(
+            'No tracks found with that search term.'
+          );
+        }
+      } else {
+        throw new Error('Search failed');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });
+
+async function fetchTrackInfo(trackId) {}
+
+// Function to fetch track info by ID
+async function fetchTrackInfo(trackId) {
   if (!accessToken) {
     console.error('Access token is not available.');
     return;
   }
 
-  // Track id (this should be dynamic based on user input or selection)
-  const trackId =
-    '6Xe9wT5xeZETPwtaP2ynUz?si=70dd0d6f541c4df2';
   const apiUrl = `https://api.spotify.com/v1/tracks/${trackId}`;
-
   try {
     const response = await fetch(apiUrl, {
       method: 'GET',
@@ -115,22 +161,21 @@ async function fetchTrackInfo() {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-
     if (response.ok) {
       const data = await response.json();
 
-      // Extract the required information
+      // Extract wanted information
       const albumImage = data.album.images[0].url;
+      const element =
+        document.getElementById('active-window');
+      element.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${albumImage}')`;
       const songName = data.name;
       const artistName = data.artists
         .map((artist) => artist.name)
         .join(', ');
-      // This is the URL for the 30-second song preview
 
       const previewUrl = data.preview_url;
       // Update the album image
-      /*  document.getElementById('albumImage-behind').src =
-        albumImage; */
       document.getElementById('albumImage').src =
         albumImage;
       document.getElementById(
@@ -143,12 +188,13 @@ async function fetchTrackInfo() {
         <h2> <strong>${artistName}</strong></h2>
       `;
 
-      // Update the audio element's source for the preview (if available)
+      // Update the audio element's source
       if (previewUrl) {
         const audioElement =
           document.getElementById('audioPreview');
         audioElement.src = previewUrl;
-        audioElement.load(); // This is necessary to reload the audio element and make the new source effective
+        //reload audio element
+        audioElement.load();
       } else {
         console.log('No preview available for this track.');
       }
@@ -159,7 +205,7 @@ async function fetchTrackInfo() {
     console.error('Error:', error);
   }
 }
-
+// Button event to trigger function
 document
   .getElementById('search-play-button')
   .addEventListener('click', fetchTrackInfo);
