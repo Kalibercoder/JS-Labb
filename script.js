@@ -1,3 +1,13 @@
+/* Script directions
+  1. General script
+  2. Authorization and token
+  3. Search and api data
+
+
+
+*/
+
+// 1. General script
 // Spotify variables
 const clientId = '124fc499e60746ea831284136dbc7f4f';
 const clientSecret = '693a9bc95e654947af04369038e6d0f9';
@@ -37,6 +47,9 @@ const authorizationUrl = `https://accounts.spotify.com/authorize?client_id=${cli
   scopes.join(' ')
 )}&response_type=code`;
 
+// End of general script
+
+// 2. Authorization and token
 // Access token variable
 let accessToken;
 
@@ -91,9 +104,12 @@ if (authorizationCode) {
   // Exchange the authorization code for an access token
   getAccessToken(authorizationCode);
 }
+// End of authorization and token
 
+// 3. Search and api data
 document
   .querySelector('#search-play-button')
+
   .addEventListener('click', async () => {
     const query =
       document.getElementById('search-bar').value;
@@ -129,7 +145,7 @@ document
               .join(', ')
           );
 
-          // Now you can call your fetchTrackInfo function using the ID of the first track
+          // calling fetch by id
           fetchTrackInfo(firstTrack.id);
         } else {
           console.log(
@@ -143,8 +159,6 @@ document
       console.error('Error:', error);
     }
   });
-
-async function fetchTrackInfo(trackId) {}
 
 // Function to fetch track info by ID
 async function fetchTrackInfo(trackId) {
@@ -209,3 +223,5 @@ async function fetchTrackInfo(trackId) {
 document
   .getElementById('search-play-button')
   .addEventListener('click', fetchTrackInfo);
+
+// End of search and api data

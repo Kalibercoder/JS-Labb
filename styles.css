@@ -5,6 +5,7 @@ Style directions
     3. Button styling
     4. Img style
     5. Modal
+    6. Media
 */
 
 /* Background */
@@ -22,7 +23,6 @@ body {
 /* Grid */
 .wrapper {
   display: grid;
-  padding: 10px;
   grid-template-columns: 1fr 2fr 2fr;
   grid-template-rows: 2fr 2fr 2fr 1fr;
   grid-template-areas:
@@ -55,7 +55,9 @@ body {
 }
 
 #trackInfo {
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.712);
+  border: 6px solid rgba(0, 0, 0, 0.733);
+  box-shadow: 1px 5px rgba(0, 0, 0, 0.733);
   border-radius: 15px;
   display: flex;
   align-items: center;
@@ -75,12 +77,14 @@ body {
 
 /* Font styling */
 h2 {
-  color: rgb(112, 24, 24);
+  color: rgb(18, 100, 36);
   margin: 1vh 1vh 1vh 1vh;
   /* text-shadow: 4px 4px 4px #000; */
   text-transform: uppercase;
   font: bold;
   font-size: 2vh;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000,
+    -1px 1px 0 #000, 1px 1px 0 #000;
 }
 .h2-auto {
   color: rgb(0, 0, 0);
@@ -89,32 +93,35 @@ h2 {
   text-transform: uppercase;
   font: bold;
   font-size: 2vh;
+  text-shadow: none;
 }
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rokkitt:ital,wght@0,300;0,400;1,900&display=swap');
 /* end of font styling */
 
 /* 2. Div styling */
 .box {
-  background-color: rgb(29, 29, 29);
+  background-color: rgba(29, 29, 29, 0.774);
   text-align: center;
   border-radius: 15px;
   height: 100%;
+  border: 5px solid black;
+  box-shadow: 5px 5px black;
 }
 /* end of div styling */
 
 /* 3. Button styling */
 .home-button,
 .search-button {
-  background-color: rgb(70, 27, 27);
+  background-color: rgb(18, 100, 36);
   border-radius: 15px;
-  border: none;
+  border: 5px solid black;
+  box-shadow: 5px 5px black;
+  max-width: 90%;
 }
 .home-button:hover,
 .search-button:hover {
-  background-color: rgb(18, 100, 36);
-  border: none;
-  border-radius: 15px;
-  transition: background 1s ease;
+  background-color: rgba(153, 205, 50, 0.671);
+  transition: background 1.3s ease;
 }
 .search-button {
   width: 20vh;
@@ -125,20 +132,24 @@ h2 {
   border: none;
   height: 10vh;
   width: 30vh;
+  border: 10px solid black;
   box-shadow: 10px 10px black;
   border-radius: 20px;
 }
 .authorize-button:hover {
-  background-color: yellowgreen;
-  border: none;
+  background-color: rgba(153, 205, 50, 0.671);
+
   border-radius: 20px;
   transition: background 1s ease;
 }
 
 audio {
   margin-top: 5vh;
+  border-radius: 15px;
+  border: 5px solid black;
+  box-shadow: 5px 5px black;
   width: 80vh;
-  background-color: rgb(29, 29, 29);
+  background-color: rgb(18, 100, 36);
 }
 /* End of button styling */
 
@@ -155,21 +166,25 @@ audio {
   margin-top: 10%;
   margin-bottom: 10%;
   opacity: 100%;
+  border: 5px solid rgba(0, 0, 0, 0.733);
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.733);
 }
 
 /* end of Img style */
 
 /* 5. Input style */
 input {
-  padding: 10px 20px 10px 40px;
-  border: 5px solid rgb(112, 24, 24);
+  border: 5px solid black;
   border-radius: 15px;
-  outline: none;
-  font-size: 16px;
-  transition: border-color 0.3s;
-
-  background-color: black;
-  color: rgb(112, 24, 24);
+  height: 4vh;
+  width: 17vh;
+  font-size: large;
+  font-style: bold;
+  box-shadow: 5px 5px black;
+  max-width: 95%;
+  background-color: white;
+  color: black;
   text-transform: uppercase;
+  text-align: center;
 }
 /* end of Input style */
