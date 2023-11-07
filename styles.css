@@ -10,18 +10,17 @@ Style directions
 
 /* Background */
 * {
-  margin: 0;
-  padding: 0;
   font-family: 'Bebas+Neue' sans-serif;
 }
 body {
-  height: 100%;
   background-color: rgb(58, 56, 56);
 }
 /* 1. General styling */
 
 /* Grid */
 .wrapper {
+  height: 95vh;
+  margin-top: 2.5vh;
   display: grid;
   grid-template-columns: 1fr 2fr 2fr;
   grid-template-rows: 2fr 2fr 2fr 1fr;
@@ -31,16 +30,21 @@ body {
     'library active-window active-window'
     'music-player music-player music-player';
   grid-gap: 20px;
+  width: 100%;
 }
 #home {
   grid-area: home;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 #library {
   grid-area: library;
-  height: 55vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 #active-window {
   grid-area: active-window;
@@ -48,17 +52,17 @@ body {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  position: relative;
 }
 #music-player {
   grid-area: music-player;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #trackInfo {
-  background-color: rgba(0, 0, 0, 0.712);
-  border: 6px solid rgba(0, 0, 0, 0.733);
-  box-shadow: 1px 5px rgba(0, 0, 0, 0.733);
-  border-radius: 15px;
+  background-color: rgba(0, 0, 0, 0.719);
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,11 +82,11 @@ body {
 /* Font styling */
 h2 {
   color: rgb(18, 100, 36);
-  margin: 1vh 1vh 1vh 1vh;
+
   /* text-shadow: 4px 4px 4px #000; */
   text-transform: uppercase;
   font: bold;
-  font-size: 2vh;
+
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000,
     -1px 1px 0 #000, 1px 1px 0 #000;
 }
@@ -144,11 +148,10 @@ h2 {
 }
 
 audio {
-  margin-top: 5vh;
   border-radius: 15px;
   border: 5px solid black;
   box-shadow: 5px 5px black;
-  width: 80vh;
+  width: 80%;
   background-color: rgb(18, 100, 36);
 }
 /* End of button styling */
@@ -181,10 +184,36 @@ input {
   font-size: large;
   font-style: bold;
   box-shadow: 5px 5px black;
-  max-width: 95%;
+
   background-color: white;
   color: black;
   text-transform: uppercase;
   text-align: center;
 }
 /* end of Input style */
+
+/* 6. Media */
+@media only screen and (max-width: 430px) {
+  .gridarea {
+    height: 100%;
+    display: grid;
+    grid-template-areas:
+      'home library'
+      'active-window active-window'
+      'music-player music-player';
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 2fr 1fr;
+  }
+  .img-album {
+    width: 20vh;
+  }
+  h2 {
+    font-size: large;
+  }
+  #track-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+}

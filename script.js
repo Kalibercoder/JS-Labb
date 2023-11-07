@@ -198,8 +198,8 @@ async function fetchTrackInfo(trackId) {
 
       // Update the track information
       document.getElementById('trackInfo').innerHTML = `
-        <h2> <strong>${songName}</strong></h2>
-        <h2> <strong>${artistName}</strong></h2>
+        <h2> ${songName} <br /> ${artistName} </h2>
+        
       `;
 
       // Update the audio element's source
