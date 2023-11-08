@@ -42,6 +42,7 @@ const scopes = [
 
 const authorizationUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
   redirectUri
+  // Encode to make uri
 )}&scope=${encodeURIComponent(
   // joins the array into a string
   scopes.join(' ')
@@ -77,7 +78,7 @@ async function getAccessToken(authorizationCode) {
       'Error exchanging authorization code for access token:',
       response.status
     );
-    accessToken = null; // Handle the error as needed
+    accessToken = null; // error
   }
 }
 
@@ -198,7 +199,7 @@ async function fetchTrackInfo(trackId) {
 
       // Update the track information
       document.getElementById('trackInfo').innerHTML = `
-        <h2> ${songName} <br /> ${artistName} </h2>
+        <h2> ${songName}  ${artistName} </h2>
         
       `;
 
@@ -207,6 +208,7 @@ async function fetchTrackInfo(trackId) {
         const audioElement =
           document.getElementById('audioPreview');
         audioElement.src = previewUrl;
+        audioElement.volume = 0.5;
         //reload audio element
         audioElement.load();
       } else {

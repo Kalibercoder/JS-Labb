@@ -6,12 +6,14 @@ Style directions
     4. Img style
     5. Modal
     6. Media
+    7. Tracklist
 */
 
 /* Background */
 * {
-  font-family: 'Bebas+Neue' sans-serif;
+  font-family: 'Anton', sans-serif;
 }
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Nunito:wght@900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rokkitt:ital,wght@0,300;0,400;1,900&display=swap');
 body {
   background-color: rgb(58, 56, 56);
 }
@@ -41,10 +43,6 @@ body {
 }
 #library {
   grid-area: library;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 #active-window {
   grid-area: active-window;
@@ -61,11 +59,9 @@ body {
 }
 
 #trackInfo {
-  background-color: rgba(0, 0, 0, 0.719);
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.575);
+  padding: 0px 30px;
+  border-radius: 15px;
 }
 
 .Authorize-page {
@@ -81,30 +77,30 @@ body {
 
 /* Font styling */
 h2 {
-  color: rgb(18, 100, 36);
-
-  /* text-shadow: 4px 4px 4px #000; */
+  color: rgba(153, 205, 50, 0.671);
   text-transform: uppercase;
   font: bold;
-
   text-shadow: -1px -1px 0 #000, 1px -1px 0 #000,
     -1px 1px 0 #000, 1px 1px 0 #000;
 }
 .h2-auto {
   color: rgb(0, 0, 0);
   margin: 1vh 1vh 1vh 1vh;
-  /* text-shadow: 4px 4px 4px #000; */
   text-transform: uppercase;
   font: bold;
   font-size: 2vh;
   text-shadow: none;
 }
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rokkitt:ital,wght@0,300;0,400;1,900&display=swap');
+
 /* end of font styling */
 
 /* 2. Div styling */
 .box {
   background-color: rgba(29, 29, 29, 0.774);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   text-align: center;
   border-radius: 15px;
   height: 100%;
@@ -121,11 +117,12 @@ h2 {
   border: 5px solid black;
   box-shadow: 5px 5px black;
   max-width: 90%;
+  transition: background-color 1s ease;
+  margin-top: 30px;
 }
 .home-button:hover,
 .search-button:hover {
   background-color: rgba(153, 205, 50, 0.671);
-  transition: background 1.3s ease;
 }
 .search-button {
   width: 20vh;
@@ -144,7 +141,7 @@ h2 {
   background-color: rgba(153, 205, 50, 0.671);
 
   border-radius: 20px;
-  transition: background 1s ease;
+  transition: background-color 1s ease;
 }
 
 audio {
@@ -152,7 +149,12 @@ audio {
   border: 5px solid black;
   box-shadow: 5px 5px black;
   width: 80%;
-  background-color: rgb(18, 100, 36);
+  margin-top: 20px;
+  background-color: rgb(12, 223, 58);
+  transition: background-color 1s ease;
+}
+audio:hover {
+  background-color: rgba(153, 205, 50, 0.671);
 }
 /* End of button styling */
 
@@ -217,3 +219,34 @@ input {
     text-align: center;
   }
 }
+
+/* 7. Tracklist */
+ul {
+  list-style: none; /* Remove default list styling */
+  padding: 0;
+  margin-top: 5vh;
+}
+ul li {
+  border-bottom: 1px solid #282828; /* Slight border for each item, similar to Spotify's UI */
+  padding: 10px 0;
+  transition: background-color 1s ease; /* Smooth transition for hover effect */
+}
+ul li {
+  color: #fff; /* Light text for links */
+  text-decoration: none; /* No underline */
+  display: block; /* Makes the entire list item clickable */
+  padding: 10px;
+}
+ul li:hover,
+ul li a:hover {
+  background-color: #1db954; /* Spotify's highlight color */
+}
+ul li a:before {
+  content: '\1F3B5'; /* Example content: a Unicode musical note */
+  margin-right: 10px;
+  /* For actual icons, you'd use a font icon library like FontAwesome */
+}
+ul li.active {
+  background-color: #1db954; /* Spotify's highlight color */
+}
+/* End of tracklist */

@@ -35,15 +35,9 @@
           id="search-bar"
           placeholder="Search for a song"
         />
-        <button
-          class="search-button"
-          id="search-play-button"
-        >
-          <h2 class="h2-auto">Search and play</h2>
-        </button>
-        <a href="playlist.html"
+        <a href=""
           ><button class="search-button" id="playlist">
-            <h2 class="h2-auto">Library</h2>
+            <h2 class="h2-auto">Add song +</h2>
           </button></a
         >
       </div>
@@ -51,20 +45,28 @@
 
       <!-- Active window -->
       <div id="active-window" class="box">
-        <img
-          class="img-album"
-          id="albumImage"
-          src=""
-          alt=""
-        />
+        <div id="trackInfo"><h2>Playlists</h2></div>
+        <div class="track-list">
+          <ul>
+            <li>SONG</li>
+            <li>SONG</li>
+            <li>SONG</li>
+            <li>SONG</li>
+            <li>SONG</li>
+            <li>SONG</li>
+            <li>SONG</li>
+            <li>SONG</li>
+            <li>SONG</li>
+            <li>SONG</li>
+          </ul>
+        </div>
       </div>
 
       <!-- end of Active window -->
 
       <!-- Music player -->
       <div id="music-player" class="box">
-        <div id="trackInfo"><h2>Trackinfo</h2></div>
-        <audio controls autoplay id="audioPreview">
+        <audio controls id="audioPreview">
           <!-- If browser is without support shows -->
           Your browser does not support the audio element.
         </audio>
