@@ -265,20 +265,4 @@ function updatePlaylistAndSave(trackName, trackImage) {
   );
 }
 
-//Delete button playlist
-document
-  .querySelector('#playListUl')
-  .addEventListener('click', function (event) {
-    // Check if the clicked element is a delete button
-    if (event.target && event.target.matches('li-button')) {
-      // Find the parent list item
-      const listItem = event.target.closest('li');
-
-      // Remove the list item
-      if (listItem) {
-        listItem.remove();
-      }
-    }
-  });
-
 // End of playlist

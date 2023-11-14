@@ -11,6 +11,7 @@
 
     <title>Fakify</title>
     <script>
+      /* Add searched song to search history */
       document.addEventListener('DOMContentLoaded', () => {
         const playListUl =
           document.getElementById('playListUl');
@@ -20,10 +21,22 @@
 
         playlist.forEach((track) => {
           const newTrackLi = document.createElement('li');
-          newTrackLi.innerHTML = `<img id="li-img" src="${track.image}" alt="${track.name}" "> <h2 id="list-h2"> ${track.name}</h2><button id="li-button">x</button>`;
+          newTrackLi.innerHTML = `<img class="li-img" src="${track.image}" alt="${track.name}" "> <h2 id="list-h2"> ${track.name}</h2>`;
           playListUl.appendChild(newTrackLi);
         });
       });
+      /* End of add searched song to search history */
+      /* Delete button for history */
+      document.addEventListener('DOMContentLoaded', () => {
+        const clearButton = document.getElementById(
+          'clearStorageButton'
+        );
+        clearButton.addEventListener('click', function () {
+          localStorage.removeItem('playlist');
+          location.reload();
+        });
+      });
+      /* End of delete button for history */
     </script>
   </head>
   <!-- end of Head -->
@@ -60,10 +73,17 @@
       <!-- end of Library / playlist -->
 
       <!-- Active window -->
+
       <div id="active-window" class="box">
-        <div id="trackInfo-history">
-          <h2>search History</h2>
+        <div class="button-box">
+          <button
+            class="search-button-history"
+            id="clearStorageButton"
+          >
+            <h2 class="h2-auto">clear history</h2>
+          </button>
         </div>
+        <div id="trackInfo-history"></div>
         <div class="track-list">
           <ul id="playListUl"></ul>
         </div>
