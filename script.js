@@ -2,9 +2,7 @@
   1. General script
   2. Authorization and token
   3. Search and api data
-
-
-
+  4. Playlist
 */
 
 // 1. General script
@@ -12,6 +10,8 @@
 const clientId = '124fc499e60746ea831284136dbc7f4f';
 const clientSecret = '693a9bc95e654947af04369038e6d0f9';
 const redirectUri = 'http://127.0.0.1:5500/main.html';
+const redirectUriTwo =
+  'http://127.0.0.1:5500/playlist.html';
 const tokenEndpoint =
   'https://accounts.spotify.com/api/token';
 
@@ -42,6 +42,14 @@ const scopes = [
 
 const authorizationUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
   redirectUri
+  // Encode to make uri
+)}&scope=${encodeURIComponent(
+  // joins the array into a string
+  scopes.join(' ')
+)}&response_type=code`;
+
+const authorizationUrlTwo = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${encodeURIComponent(
+  redirectUriTwo
   // Encode to make uri
 )}&scope=${encodeURIComponent(
   // joins the array into a string
@@ -88,8 +96,14 @@ document
   .addEventListener('click', () => {
     window.location.href = authorizationUrl;
   });
+// Libary auth button
+document
+  .querySelector('#playlist')
+  .addEventListener('click', () => {
+    window.location.href = authorizationUrlTwo;
+  });
 
-// Check for and store the authorization code in local storage
+// Check for and store the authorization code
 const urlParams = new URLSearchParams(
   window.location.search
 );
@@ -107,57 +121,67 @@ if (authorizationCode) {
 }
 // End of authorization and token
 
-// 3. Search and api data
+// 3. Search, api data
+async function fetchAndProcessSong() {
+  const query = document.querySelector('#search-bar').value;
+  if (!query) {
+    console.log('Please enter a search term.');
+    return;
+  }
+
+  const searchUrl = `https://api.spotify.com/v1/search?q=${encodeURIComponent(
+    query
+  )}&type=track&limit=1`;
+
+  try {
+    const response = await fetch(searchUrl, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (response.ok) {
+      const searchData = await response.json();
+      const tracks = searchData.tracks.items;
+      if (tracks.length > 0) {
+        const firstTrack = tracks[0];
+        console.log(
+          'First track found:',
+          firstTrack.name,
+          'by',
+          firstTrack.artists
+            .map((artist) => artist.name)
+            .join(', ')
+        );
+
+        // calling fetch by id
+        fetchTrackInfo(firstTrack.id);
+      } else {
+        console.log(
+          'No tracks found with that search term.'
+        );
+      }
+    } else {
+      throw new Error('Search failed');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+// Click
 document
   .querySelector('#search-play-button')
+  .addEventListener('click', fetchAndProcessSong);
 
-  .addEventListener('click', async () => {
-    const query =
-      document.getElementById('search-bar').value;
-    if (!query) {
-      console.log('Please enter a search term.');
-      return;
-    }
-
-    const searchUrl = `https://api.spotify.com/v1/search?q=${encodeURIComponent(
-      query
-    )}&type=track&limit=1`;
-
-    try {
-      const response = await fetch(searchUrl, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-
-      if (response.ok) {
-        const searchData = await response.json();
-        const tracks = searchData.tracks.items;
-        if (tracks.length > 0) {
-          // First track (could be changed to show multiple songs in a)
-          const firstTrack = tracks[0];
-          console.log(
-            'First track found:',
-            firstTrack.name,
-            'by',
-            firstTrack.artists
-              .map((artist) => artist.name)
-              .join(', ')
-          );
-
-          // calling fetch by id
-          fetchTrackInfo(firstTrack.id);
-        } else {
-          console.log(
-            'No tracks found with that search term.'
-          );
-        }
-      } else {
-        throw new Error('Search failed');
-      }
-    } catch (error) {
-      console.error('Error:', error);
+// Enter
+document
+  .querySelector('#search-bar')
+  .addEventListener('keypress', async (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      fetchAndProcessSong();
     }
   });
 
@@ -188,7 +212,7 @@ async function fetchTrackInfo(trackId) {
       const artistName = data.artists
         .map((artist) => artist.name)
         .join(', ');
-
+      updatePlaylistAndSave(songName, albumImage);
       const previewUrl = data.preview_url;
       // Update the album image
       document.getElementById('albumImage').src =
@@ -221,9 +245,40 @@ async function fetchTrackInfo(trackId) {
     console.error('Error:', error);
   }
 }
-// Button event to trigger function
-document
-  .getElementById('search-play-button')
-  .addEventListener('click', fetchTrackInfo);
 
 // End of search and api data
+
+// 4. PlayList
+// Function to update playlist data in local storage
+function updatePlaylistAndSave(trackName, trackImage) {
+  // Retrieve existing playlist data or initialize it
+  let playlist =
+    JSON.parse(localStorage.getItem('playlist')) || [];
+
+  // Add the new track to the playlist data
+  playlist.push({ name: trackName, image: trackImage });
+
+  // Save the updated playlist data to local storage
+  localStorage.setItem(
+    'playlist',
+    JSON.stringify(playlist)
+  );
+}
+
+//Delete button playlist
+document
+  .querySelector('#playListUl')
+  .addEventListener('click', function (event) {
+    // Check if the clicked element is a delete button
+    if (event.target && event.target.matches('li-button')) {
+      // Find the parent list item
+      const listItem = event.target.closest('li');
+
+      // Remove the list item
+      if (listItem) {
+        listItem.remove();
+      }
+    }
+  });
+
+// End of playlist

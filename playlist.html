@@ -10,6 +10,21 @@
     <link rel="stylesheet" href="styles.css" />
 
     <title>Fakify</title>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const playListUl =
+          document.getElementById('playListUl');
+        let playlist =
+          JSON.parse(localStorage.getItem('playlist')) ||
+          [];
+
+        playlist.forEach((track) => {
+          const newTrackLi = document.createElement('li');
+          newTrackLi.innerHTML = `<img id="li-img" src="${track.image}" alt="${track.name}" "> <h2 id="list-h2"> ${track.name}</h2><button id="li-button">x</button>`;
+          playListUl.appendChild(newTrackLi);
+        });
+      });
+    </script>
   </head>
   <!-- end of Head -->
   <body>
@@ -22,7 +37,7 @@
             class="img-buttons"
             src="imgs/fakify-logos_transparent.png"
             alt=""
-            onclick="window.location.href='index.html'"
+            onclick="window.location.href='playlist.html' + authorizationCode"
           />
         </button>
       </div>
@@ -35,30 +50,22 @@
           id="search-bar"
           placeholder="Search for a song"
         />
-        <a href=""
-          ><button class="search-button" id="playlist">
-            <h2 class="h2-auto">Add song +</h2>
-          </button></a
+        <button
+          class="search-button"
+          id="search-play-button"
         >
+          <h2 class="h2-auto">play</h2>
+        </button>
       </div>
       <!-- end of Library / playlist -->
 
       <!-- Active window -->
       <div id="active-window" class="box">
-        <div id="trackInfo"><h2>Playlists</h2></div>
+        <div id="trackInfo-history">
+          <h2>search History</h2>
+        </div>
         <div class="track-list">
-          <ul>
-            <li>SONG</li>
-            <li>SONG</li>
-            <li>SONG</li>
-            <li>SONG</li>
-            <li>SONG</li>
-            <li>SONG</li>
-            <li>SONG</li>
-            <li>SONG</li>
-            <li>SONG</li>
-            <li>SONG</li>
-          </ul>
+          <ul id="playListUl"></ul>
         </div>
       </div>
 
