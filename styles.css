@@ -194,7 +194,7 @@ input {
 /* end of Input style */
 
 /* 6. Media */
-@media only screen and (max-width: 430px) {
+@media only screen and (max-width: 375px) {
   .gridarea {
     height: 100%;
     display: grid;
@@ -206,7 +206,7 @@ input {
     grid-template-rows: 1fr 2fr 1fr;
   }
   .img-album {
-    width: 20vh;
+    display: none;
   }
   h2 {
     font-size: large;
@@ -217,6 +217,37 @@ input {
     justify-content: center;
     text-align: center;
   }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 5vh;
+  }
+  ul li {
+    border-bottom: 0px;
+    border-radius: 0px;
+    padding: 0px 0;
+    transition: background-color 0s ease;
+  }
+  ul li:hover,
+  ul li a:hover {
+    background-color: transparent;
+  }
+  ul li a:before {
+    content: '\1F3B5';
+    margin-right: 10px;
+  }
+  ul li.active {
+    background-color: transparent;
+  }
+  li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1vh;
+    width: 10vh;
+    text-transform: uppercase;
+    color: white;
+  }
 }
 
 /* 7. Tracklist */
@@ -225,26 +256,12 @@ input {
   padding: 0px 30px;
   border-radius: 15px;
 }
-
-.button-box {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-.search-button-history {
-  background-color: rgb(18, 100, 36);
-  border-radius: 15px;
-  border: 5px solid black;
-  width: 18vh;
-  height: 7vh;
-  box-shadow: 5px 5px black;
-  transition: background-color 1s ease;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
 .search-button-history:hover {
   background-color: rgba(153, 205, 50, 0.671);
+}
+.track-list {
+  max-height: 100%;
+  overflow-y: auto;
 }
 li {
   display: flex;
@@ -284,5 +301,10 @@ ul li a:before {
 }
 ul li.active {
   background-color: #1db954;
+}
+#music-player {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 /* End of tracklist */

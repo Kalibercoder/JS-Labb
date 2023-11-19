@@ -74,7 +74,7 @@ async function getAccessToken(authorizationCode) {
     body: new URLSearchParams({
       grant_type: 'authorization_code',
       code: authorizationCode,
-      redirect_uri: redirectUri,
+      redirect_uri: redirectUriTwo,
     }),
   });
 
@@ -180,7 +180,6 @@ document
   .querySelector('#search-bar')
   .addEventListener('keypress', async (event) => {
     if (event.key === 'Enter') {
-      event.preventDefault();
       fetchAndProcessSong();
     }
   });
@@ -223,12 +222,6 @@ async function fetchTrackInfo(trackId) {
         .join(', ');
       updatePlaylistAndSave(songName, albumImage);
       const previewUrl = data.preview_url;
-      // Update the album image
-      document.getElementById('albumImage').src =
-        albumImage;
-      document.getElementById(
-        'albumImage'
-      ).alt = `Album cover for ${songName}`;
 
       // Update the track information
       document.getElementById('trackInfo').innerHTML = `
@@ -245,6 +238,7 @@ async function fetchTrackInfo(trackId) {
         audioElement.volume = 0.5;
         //reload audio element
         audioElement.load();
+        audioElement.play();
       } else {
         console.log('No preview available for this track.');
       }

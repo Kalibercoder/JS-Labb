@@ -26,17 +26,18 @@
         });
       });
       /* End of add searched song to search history */
-      /* Delete button for history */
+      /* Clear button for history */
       document.addEventListener('DOMContentLoaded', () => {
-        const clearButton = document.getElementById(
-          'clearStorageButton'
+        const clearButton = document.querySelector(
+          '#clearStorageButton'
         );
         clearButton.addEventListener('click', function () {
           localStorage.removeItem('playlist');
           location.reload();
         });
       });
-      /* End of delete button for history */
+
+      /* End of clear button for history */
     </script>
   </head>
   <!-- end of Head -->
@@ -69,21 +70,27 @@
         >
           <h2 class="h2-auto">play</h2>
         </button>
+        <button class="search-button" id="playlist">
+          <!--  If the site is reloaded the token dissapears, working on this,
+          meanwhile you need to press the reload token button if page is reloaded
+          for the token to be valid -->
+          <h2 class="h2-auto">Reload token</h2>
+        </button>
+        <button
+          class="search-button"
+          id="clearStorageButton"
+        >
+          <h2 class="h2-auto">clear history</h2>
+        </button>
       </div>
       <!-- end of Library / playlist -->
 
       <!-- Active window -->
 
       <div id="active-window" class="box">
-        <div class="button-box">
-          <button
-            class="search-button-history"
-            id="clearStorageButton"
-          >
-            <h2 class="h2-auto">clear history</h2>
-          </button>
+        <div id="trackInfo-history">
+          <h2>Search history</h2>
         </div>
-        <div id="trackInfo-history"></div>
         <div class="track-list">
           <ul id="playListUl"></ul>
         </div>
@@ -93,6 +100,7 @@
 
       <!-- Music player -->
       <div id="music-player" class="box">
+        <div id="trackInfo"><h2>Trackinfo</h2></div>
         <audio controls id="audioPreview">
           <!-- If browser is without support shows -->
           Your browser does not support the audio element.
@@ -102,7 +110,6 @@
     </div>
 
     <!-- Script -->
-
-    <script src="script.js"></script>
+    <script src="history.js"></script>
   </body>
 </html>
